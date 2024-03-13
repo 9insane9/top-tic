@@ -7,17 +7,17 @@ const playerManager = (function () {
                     marker: "O"}
                 ];
   
-    function namePlayer0(name) {
+    function namePlayer1(name) {
         players[0].name = name.toString();
     }
     
-    function namePlayer1(name) {
+    function namePlayer2(name) {
         players[1].name = name.toString();
     }
         
-    function getPlayers() { return players }
+    function getPlayers() { return players };
 
-    return {getPlayers, namePlayer0, namePlayer1};
+    return { getPlayers, namePlayer1, namePlayer2 };
 }());
 
 
@@ -27,7 +27,6 @@ const game = (function () {
     const secondPlayer = 1;
 
     let gameOver = false;
-    let gameWon = false;
     let activePlayer = firstPlayer;
     let gameInfoText;
 
@@ -43,13 +42,13 @@ const game = (function () {
             board.splice(position, 1, marker);
             // console.log(`${players[activePlayer].name} placed ${marker} in position ${position}.`)
             // console.log(board)
-            checkWinner(board);
-            setActivePlayer();
+            _checkWinner(board);
+            _setActivePlayer();
 
             } else if (!gameOver)  { console.log("Invalid placement.") }
     };
 
-    function checkWinner(board) {
+    function _checkWinner(board) {
         if (
             (board[0] !== "" && board[0] === board[1] && board[1] === board[2]) //first row
         || (board[3] !== "" && board[3] === board[4] && board[4] === board[5]) //second row
@@ -62,13 +61,13 @@ const game = (function () {
         ) {
             gameInfoText = `${players[activePlayer].name} has won!`;
             gameOver = true;
-            gameWon = true;
+
         } else if (!board.includes("")) {
             gameInfoText = "Game tied!"
         }
     }
 
-    function setActivePlayer() {
+    function _setActivePlayer() {
         if (!gameOver && board.includes("")) {
             activePlayer === firstPlayer ? activePlayer = secondPlayer : activePlayer = firstPlayer;
             gameInfoText = `Next up is ${players[activePlayer].name}.`;
@@ -77,7 +76,6 @@ const game = (function () {
 
     function restart() {
         gameOver = false;
-        gameWon = false;
         activePlayer = firstPlayer;
         gameInfoText = "Tic-Tac-Toe, let's go!"
         board = [   "","","",
@@ -93,10 +91,9 @@ const game = (function () {
 
     function getGameInfoText() { return gameInfoText };
 
-    return {placeMarker, restart, getActivePlayer, getBoard, getGameInfoText}
+    return { placeMarker, restart, getActivePlayer, getBoard, getGameInfoText };
 
-}())
-
+}());
 
 const displayController = (function () {
    const gameBoxElList = document.querySelectorAll(".tic");
@@ -117,50 +114,17 @@ const displayController = (function () {
 
    restartBtn.addEventListener("click", () => game.restart())
    
-    function renderBoard () {
-        board = game.getBoard()
-
-        board.forEach((gridItem, index) => {
+    function renderBoard() {
+        //Match each array item with respective grid position and render
+        game.getBoard().forEach((arrayItem, index) => {
             gameBoxElList.forEach(box => {
                 const gridPosition = box.getAttribute("data-");
 
-                if (gridPosition == index) {
-                    box.textContent = gridItem;
-                }
+                if (gridPosition == index) { box.textContent = arrayItem };
             })})
     }
 
-    function renderInfo () {
-        gameInfoEl.textContent = game.getGameInfoText();
-    }
+    function renderInfo() { gameInfoEl.textContent = game.getGameInfoText() };
 
-    return {renderBoard};
-
-}())
-
-// playerManager.createPlayer("bib")
-// playerManager.createPlayer("bob")
-
-
-
-// ////player0-win
-// game.placeMarker(0)
-// game.placeMarker(3)
-// game.placeMarker(2)
-// game.placeMarker(5)
-// game.placeMarker(1)
-// game.placeMarker(4)
-// game.placeMarker(7)
-// game.placeMarker(6)
-// game.placeMarker(8)
-
-////tie
-// game.placeMarker(0) 
-// game.placeMarker(1)
-// game.placeMarker(2)
-// game.placeMarker(4)
-// game.placeMarker(3)
-// game.placeMarker(5)
-// game.placeMarker(7)
-// game.placeMarker(6)
-// game.placeMarker(8)
+    return { renderBoard };
+}());
