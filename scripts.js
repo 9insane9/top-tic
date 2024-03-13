@@ -107,7 +107,7 @@ const displayController = (function () {
 
             game.placeMarker(position)
             renderBoard()
-            renderInfo()
+            _renderInfo()
             e.stopImmediatePropagation()
         })
    })
@@ -124,7 +124,7 @@ const displayController = (function () {
             })})
     }
 
-    function renderInfo() { gameInfoEl.textContent = game.getGameInfoText() };
+    function _renderInfo() { gameInfoEl.textContent = game.getGameInfoText() };
 
     return { renderBoard };
 }());
