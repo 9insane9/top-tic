@@ -6,15 +6,7 @@ const playerManager = (function () {
                     {name: "Player1",
                     marker: "O"}
                 ];
-
-    assignMarkers(players)
-
-    function assignMarkers (playersArray) {
-        if (players.length === 2) {
-            playersArray.forEach(function(player, index) {
-                index === 0 ? player.marker = "X" : player.marker = "O"
-        })}}
-    
+  
     function namePlayer0 (name) {
         players[0].name = name.toString();
     }
@@ -50,9 +42,7 @@ const game = (function () {
                     ];
 
     function placeMarker (position) {
-        let marker;
-
-        marker = players[activePlayer].marker
+        let marker = players[activePlayer].marker
 
         if (board[position] === "" && !gameOver) {
             board.splice(position, 1, marker);
@@ -60,7 +50,7 @@ const game = (function () {
             console.log(`${players[activePlayer].name} placed ${marker} in position ${position}.`)
             console.log(board)
 
-            findWinner(board);
+            checkWinner(board);
             isGameTied()
 
             setActivePlayer()
@@ -77,7 +67,7 @@ const game = (function () {
         }
     }
 
-    function findWinner (board) {
+    function checkWinner (board) {
         if (
             (board[0] !== "" && board[0] === board[1] && board[1] === board[2]) //first row
         || (board[3] !== "" && board[3] === board[4] && board[4] === board[5]) //second row
@@ -109,6 +99,10 @@ const game = (function () {
         return activePlayer;
     }
 
+    function getBoard () {
+        return board;
+    }
+
     function restart () {
         gameOver = false;
         gameWon = false;
@@ -117,38 +111,46 @@ const game = (function () {
         board = [   "","","",
                     "","","",
                     "","","", ];
+        
+        displayController.renderBoard()
     }
 
-    return {placeMarker, restart, getActivePlayer}
+    return {placeMarker, restart, getActivePlayer, getBoard}
 
 }())
 
 
 const displayController = (function () {
    const gameBoxElList = document.querySelectorAll(".tic");
-   const gameBoxSymbolElList = document.querySelectorAll(".mark")
 
    gameBoxElList.forEach((element) => {
 
         addEventListener("click", (e) => {
             let position = e.target.getAttribute("data-")
-            console.log(position)
-
-            gameBoxSymbolElList[position].textContent = playerManager.getPlayers()[game.getActivePlayer()].marker
 
             game.placeMarker(position)
-
+            renderBoard()
             e.stopImmediatePropagation()
-
-            //draw new grid on update instead of this
-
         })
    })
 
    
-   function updateGrid () {
+    function renderBoard () {
+        board = game.getBoard()
 
-   }
+        board.forEach((gridItem, index) => {
+            gameBoxElList.forEach(box => {
+                const gridPosition = box.getAttribute("data-");
+
+                if (gridPosition == index) {
+                    box.textContent = gridItem;
+                }
+            })
+        })
+    }
+
+    return {renderBoard};
+
 }())
 // playerManager.createPlayer("bib")
 // playerManager.createPlayer("bob")
