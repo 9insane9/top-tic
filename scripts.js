@@ -1,9 +1,9 @@
 const playerManager = (function () {
     const players = [
-                    {name: "Player0",
+                    {name: "Player 1",
                     marker: "X"},
 
-                    {name: "Player1",
+                    {name: "Player 2",
                     marker: "O"}
                 ];
   
@@ -15,7 +15,6 @@ const playerManager = (function () {
         players[1].name = name.toString();
     }
         
-
     function getPlayers() {
         return players;
     }
@@ -33,8 +32,8 @@ const game = (function () {
 
     let gameOver = false;
     let gameWon = false;
-    let gameTied = false;
     let activePlayer = firstPlayer;
+    let gameInfoText;
 
     let board = [  "","","",
                     "","","",
@@ -51,21 +50,21 @@ const game = (function () {
             console.log(board)
 
             checkWinner(board);
-            isGameTied()
-
+            // isGameTied()
             setActivePlayer()
 
             } else if (!gameOver)  {
-            console.log("Position already marked.")
+                console.log("Invalid placement.")
             }
     }
 
-    function isGameTied () {
-        if (!board.includes("") && (gameOver && !gameWon)) {
-            console.log("Game is tied.")
-            gameTied = true;
-        }
-    }
+    // function isGameTied () {
+    //     if (!board.includes("") && (gameOver && !gameWon)) {
+    //         console.log("Game is tied.")
+    //         gameInfoText = "Game is tied."
+
+    //     }
+    // }
 
     function checkWinner (board) {
         if (
@@ -79,10 +78,12 @@ const game = (function () {
         || (board[6] !== "" && board[6] === board[4] && board[4] === board[2]) //bottom-left to top-right diagonal
         ) {
             console.log(`${players[activePlayer].name} has won!`)
+            gameInfoText = `${players[activePlayer].name} has won!`;
             gameOver = true;
             gameWon = true;
         } else if (!board.includes("")) {
             console.log("Game tied!")
+            gameInfoText = "Game tied!"
         }
     }
 
@@ -90,8 +91,7 @@ const game = (function () {
         if (!gameOver && board.includes("")) {
             activePlayer === firstPlayer ? activePlayer = secondPlayer : activePlayer = firstPlayer;
             console.log(`Next up is ${players[activePlayer].name}.`)
-        } else {
-            console.log("New active player not set, game already over.")
+            gameInfoText = `Next up is ${players[activePlayer].name}.`;
         }
     }
 
@@ -103,11 +103,15 @@ const game = (function () {
         return board;
     }
 
+    function getGameInfoText () {
+        return gameInfoText;
+    }
+
     function restart () {
         gameOver = false;
         gameWon = false;
-        gameTied = false;
         activePlayer = firstPlayer;
+        gameInfoText = "Tic-Tac-Toe, let's go!"
         board = [   "","","",
                     "","","",
                     "","","", ];
@@ -115,13 +119,15 @@ const game = (function () {
         displayController.renderBoard()
     }
 
-    return {placeMarker, restart, getActivePlayer, getBoard}
+    return {placeMarker, restart, getActivePlayer, getBoard, getGameInfoText}
 
 }())
 
 
 const displayController = (function () {
    const gameBoxElList = document.querySelectorAll(".tic");
+   const restartBtn = document.querySelector(".restart-btn");
+   const gameInfoEl = document.querySelector(".game-info");
 
    gameBoxElList.forEach((element) => {
 
@@ -130,10 +136,12 @@ const displayController = (function () {
 
             game.placeMarker(position)
             renderBoard()
+            renderInfo()
             e.stopImmediatePropagation()
         })
    })
 
+   restartBtn.addEventListener("click", () => game.restart())
    
     function renderBoard () {
         board = game.getBoard()
@@ -145,13 +153,17 @@ const displayController = (function () {
                 if (gridPosition == index) {
                     box.textContent = gridItem;
                 }
-            })
-        })
+            })})
+    }
+
+    function renderInfo () {
+        gameInfoEl.textContent = game.getGameInfoText();
     }
 
     return {renderBoard};
 
 }())
+
 // playerManager.createPlayer("bib")
 // playerManager.createPlayer("bob")
 

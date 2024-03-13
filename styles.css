@@ -5,6 +5,9 @@
 .game-info {
     width: 100vw;
     height: clamp(75px, 10vh, 200px);
+    font-size: 3rem;
+    text-align: center;
+    margin-bottom: 0;
 }
 
 .game-grid {
@@ -12,9 +15,9 @@
     display: grid;
     /* width: 900px;
     height: 900px; */
-    width: clamp(300px, 95vw, 750px);
+    width: clamp(300px, 90vw, 750px);
     height: clamp(300px, 75vh, 750px);
-    grid-template: 33% 33% 33% / 33% 33% 33%;
+    grid-template: 1fr 1fr 1fr / 1fr 1fr 1fr;
     border: 1px solid blue;
 }
 
