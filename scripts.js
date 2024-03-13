@@ -7,22 +7,18 @@ const playerManager = (function () {
                     marker: "O"}
                 ];
   
-    function namePlayer0 (name) {
+    function namePlayer0(name) {
         players[0].name = name.toString();
     }
     
-    function namePlayer1 (name) {
+    function namePlayer1(name) {
         players[1].name = name.toString();
     }
         
-    function getPlayers() {
-        return players;
-    }
-
-    console.log(players)
+    function getPlayers() { return players }
 
     return {getPlayers, namePlayer0, namePlayer1};
-}())
+}());
 
 
 const game = (function () {
@@ -40,33 +36,20 @@ const game = (function () {
                     "","","",
                     ];
 
-    function placeMarker (position) {
+    function placeMarker(position) {
         let marker = players[activePlayer].marker
 
         if (board[position] === "" && !gameOver) {
             board.splice(position, 1, marker);
-
-            console.log(`${players[activePlayer].name} placed ${marker} in position ${position}.`)
-            console.log(board)
-
+            // console.log(`${players[activePlayer].name} placed ${marker} in position ${position}.`)
+            // console.log(board)
             checkWinner(board);
-            // isGameTied()
-            setActivePlayer()
+            setActivePlayer();
 
-            } else if (!gameOver)  {
-                console.log("Invalid placement.")
-            }
-    }
+            } else if (!gameOver)  { console.log("Invalid placement.") }
+    };
 
-    // function isGameTied () {
-    //     if (!board.includes("") && (gameOver && !gameWon)) {
-    //         console.log("Game is tied.")
-    //         gameInfoText = "Game is tied."
-
-    //     }
-    // }
-
-    function checkWinner (board) {
+    function checkWinner(board) {
         if (
             (board[0] !== "" && board[0] === board[1] && board[1] === board[2]) //first row
         || (board[3] !== "" && board[3] === board[4] && board[4] === board[5]) //second row
@@ -77,37 +60,22 @@ const game = (function () {
         || (board[0] !== "" && board[0] === board[4] && board[4] === board[8]) //top-left to bottom-right diagonal
         || (board[6] !== "" && board[6] === board[4] && board[4] === board[2]) //bottom-left to top-right diagonal
         ) {
-            console.log(`${players[activePlayer].name} has won!`)
             gameInfoText = `${players[activePlayer].name} has won!`;
             gameOver = true;
             gameWon = true;
         } else if (!board.includes("")) {
-            console.log("Game tied!")
             gameInfoText = "Game tied!"
         }
     }
 
-    function setActivePlayer () {
+    function setActivePlayer() {
         if (!gameOver && board.includes("")) {
             activePlayer === firstPlayer ? activePlayer = secondPlayer : activePlayer = firstPlayer;
-            console.log(`Next up is ${players[activePlayer].name}.`)
             gameInfoText = `Next up is ${players[activePlayer].name}.`;
         }
     }
 
-    function getActivePlayer () {
-        return activePlayer;
-    }
-
-    function getBoard () {
-        return board;
-    }
-
-    function getGameInfoText () {
-        return gameInfoText;
-    }
-
-    function restart () {
+    function restart() {
         gameOver = false;
         gameWon = false;
         activePlayer = firstPlayer;
@@ -117,7 +85,13 @@ const game = (function () {
                     "","","", ];
         
         displayController.renderBoard()
-    }
+    }; 
+
+    function getActivePlayer() { return activePlayer };
+
+    function getBoard() { return board };
+
+    function getGameInfoText() { return gameInfoText };
 
     return {placeMarker, restart, getActivePlayer, getBoard, getGameInfoText}
 
