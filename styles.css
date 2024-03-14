@@ -95,4 +95,8 @@ html {
         top: 50%;
         transform: translateY(-50%);
     }
+
+    .restart-btn {
+        margin-top: 65px;
+    }
 }
