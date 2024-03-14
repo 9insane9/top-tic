@@ -1,32 +1,89 @@
-/* html {
+@import url('https://fonts.googleapis.com/css2?family=Finger+Paint&family=Water+Brush&display=swap');
+
+.finger-paint-regular {
+    font-family: "Finger Paint", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+  }
+
+html {
     user-select: none;
-} */
+    background-color: #00224D;
+    font-family: "Finger Paint", sans-serif;
+    color: #FF204E;
+}
 
 .game-info {
+    display: flex;
+    justify-content: center;
     width: 100vw;
     height: clamp(75px, 10vh, 200px);
-    font-size: 3rem;
+    margin-bottom: 10px;
+    font-size: 2rem;
+    color: #ff3c63;
     text-align: center;
-    margin-bottom: 0;
+}
+
+.game-container {
+    display: flex;
 }
 
 .game-grid {
-    margin: 0 auto;
     display: grid;
-    /* width: 900px;
-    height: 900px; */
-    width: clamp(300px, 90vw, 750px);
-    height: clamp(300px, 75vh, 750px);
     grid-template: 1fr 1fr 1fr / 1fr 1fr 1fr;
-    border: 1px solid blue;
+    margin: 0 auto;
+    width: clamp(250px, 90vw, 600px);
+    height: clamp(250px, 90vw, 600px);
 }
 
 .tic {
     display: flex;
-    border: 1px solid red;
-    min-width: 50px;
-    min-height: 50px;
     justify-content: center;
     align-items: center;
-    font-size: 10rem;
+    font-size: calc(3rem + 4vw);
+}
+
+.tic:nth-child(1),
+.tic:nth-child(2),
+.tic:nth-child(4),
+.tic:nth-child(5) {
+    border-radius: 2px;
+    border-right: 2px ridge red;
+    border-bottom: 2px ridge red;
+}
+
+.tic:nth-child(3),
+.tic:nth-child(6) {
+    border-radius: 2px;
+    border-bottom: 2px ridge red;
+}
+
+.tic:nth-child(7), .tic:nth-child(8) {
+    border-radius: 2px;
+    border-right: 2px ridge red;
+}
+
+.controls {
+    position: relative;
+    margin-top: 10px;
+}
+
+.restart-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 40px auto;
+    padding: 10px;
+    font-size: 2rem;
+    font-family: "Finger Paint", sans-serif;
+    background-color: #003c8b;
+    color: #ff3c63;
+    border: 2px solid #ff3c63;
+    border-radius: 10px;
+}
+
+.restart-btn:hover {
+    cursor: pointer;
+    color: #ff224e;
+    background-color: #005cd4;
 }
