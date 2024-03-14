@@ -32,8 +32,8 @@ html {
     display: grid;
     grid-template: 1fr 1fr 1fr / 1fr 1fr 1fr;
     margin: 0 auto;
-    width: clamp(250px, 90vw, 600px);
-    height: clamp(250px, 90vw, 600px);
+    width: clamp(250px, 85vw, 600px);
+    height: clamp(250px, 85vw, 600px);
 }
 
 .tic {
