@@ -43,6 +43,11 @@ html {
     font-size: calc(3rem + 4vw);
 }
 
+.tic:hover {
+    cursor: pointer;
+    background-color: #002e695e; 
+}
+
 .tic:nth-child(1),
 .tic:nth-child(2),
 .tic:nth-child(4),
